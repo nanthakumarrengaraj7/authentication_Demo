@@ -48,3 +48,12 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+
+
+exports.getAllUsers = async (req, res) => {
+    const users = await userModel.find();
+    if (users.length === 0) {
+        return res.status(400).json({ message: 'No one user in your database!' })
+    }
+    res.status(200).json(users);
+}
