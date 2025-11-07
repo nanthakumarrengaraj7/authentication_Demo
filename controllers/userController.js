@@ -28,12 +28,12 @@ exports.loginUser = async (req, res) => {
     try {
         const { mail, password } = req.body;
 
-        const user = await userModel.findOne({ mail });
+        const existingUser = await userModel.findOne({ mail });
         if (!user) {
             res.status(400).json({ message: 'User Not found' });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, existingUser.password);
         if (!isMatch) {
             return res.status(404).json({ message: 'Invalid credentials' })
         }
